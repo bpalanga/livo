@@ -150,7 +150,7 @@ export const AgentDashboard: React.FC<AgentDashboardProps> = ({ profile }) => {
             <input
               type="text"
               placeholder="Search my listings..."
-              className="w-full pl-4 pr-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="w-full pl-4 pr-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500 outline-none"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -160,7 +160,7 @@ export const AgentDashboard: React.FC<AgentDashboardProps> = ({ profile }) => {
               setEditingListing({ title: '', price: 0, location: '', amenities: [], status: 'Available' });
               setIsModalOpen(true);
             }}
-            className="flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors font-medium"
+            className="flex items-center justify-center px-4 py-2 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-colors font-medium"
           >
             <Plus className="w-5 h-5 mr-2" />
             Add Listing
@@ -178,7 +178,7 @@ export const AgentDashboard: React.FC<AgentDashboardProps> = ({ profile }) => {
                   setEditingListing(listing);
                   setIsModalOpen(true);
                 }}
-                className="p-2 bg-white/90 backdrop-blur shadow-sm rounded-lg text-indigo-600 hover:bg-white"
+                className="p-2 bg-white/90 backdrop-blur shadow-sm rounded-lg text-brand-600 hover:bg-white"
               >
                 <Edit2 className="w-4 h-4" />
               </button>
@@ -198,7 +198,7 @@ export const AgentDashboard: React.FC<AgentDashboardProps> = ({ profile }) => {
               </button>
               <button
                 onClick={() => setViewingInquiries(listing.id)}
-                className="flex-1 py-1.5 px-3 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-medium hover:bg-indigo-100 flex items-center justify-center"
+                className="flex-1 py-1.5 px-3 bg-brand-50 text-brand-700 rounded-lg text-xs font-medium hover:bg-brand-100 flex items-center justify-center"
               >
                 <MessageSquare className="w-3 h-3 mr-1" />
                 Inquiries ({inquiries.filter(i => i.propertyId === listing.id).length})
@@ -220,16 +220,16 @@ export const AgentDashboard: React.FC<AgentDashboardProps> = ({ profile }) => {
               <form onSubmit={handleSaveListing} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                  <input required type="text" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" value={editingListing?.title || ''} onChange={e => setEditingListing({...editingListing!, title: e.target.value})} />
+                  <input required type="text" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500" value={editingListing?.title || ''} onChange={e => setEditingListing({...editingListing!, title: e.target.value})} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Price ($/mo)</label>
-                    <input required type="number" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" value={editingListing?.price || 0} onChange={e => setEditingListing({...editingListing!, price: Number(e.target.value)})} />
+                    <input required type="number" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500" value={editingListing?.price || 0} onChange={e => setEditingListing({...editingListing!, price: Number(e.target.value)})} />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                    <select className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" value={editingListing?.status || 'Available'} onChange={e => setEditingListing({...editingListing!, status: e.target.value as any})}>
+                    <select className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500" value={editingListing?.status || 'Available'} onChange={e => setEditingListing({...editingListing!, status: e.target.value as any})}>
                       <option value="Available">Available</option>
                       <option value="Pending">Pending</option>
                       <option value="Rented">Rented</option>
@@ -238,17 +238,17 @@ export const AgentDashboard: React.FC<AgentDashboardProps> = ({ profile }) => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                  <input required type="text" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" value={editingListing?.location || ''} onChange={e => setEditingListing({...editingListing!, location: e.target.value})} />
+                  <input required type="text" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500" value={editingListing?.location || ''} onChange={e => setEditingListing({...editingListing!, location: e.target.value})} />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Amenities (comma separated)</label>
-                  <input type="text" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" value={Array.isArray(editingListing?.amenities) ? editingListing?.amenities.join(', ') : editingListing?.amenities || ''} onChange={e => setEditingListing({...editingListing!, amenities: e.target.value})} />
+                  <input type="text" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500" value={Array.isArray(editingListing?.amenities) ? editingListing?.amenities.join(', ') : editingListing?.amenities || ''} onChange={e => setEditingListing({...editingListing!, amenities: e.target.value})} />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Image URL (optional)</label>
-                  <input type="text" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" value={editingListing?.imageUrl || ''} onChange={e => setEditingListing({...editingListing!, imageUrl: e.target.value})} />
+                  <input type="text" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500" value={editingListing?.imageUrl || ''} onChange={e => setEditingListing({...editingListing!, imageUrl: e.target.value})} />
                 </div>
-                <button type="submit" className="w-full py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold flex items-center justify-center">
+                <button type="submit" className="w-full py-3 bg-brand-600 text-white rounded-xl hover:bg-brand-700 font-bold flex items-center justify-center">
                   <Save className="w-5 h-5 mr-2" />
                   Save Listing
                 </button>
@@ -273,7 +273,7 @@ export const AgentDashboard: React.FC<AgentDashboardProps> = ({ profile }) => {
                     <div key={inquiry.id} className="p-4 bg-gray-50 rounded-xl border border-gray-100">
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex flex-col">
-                          <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider">Tenant: {inquiry.tenantName || `ID ${inquiry.tenantId}`}</span>
+                          <span className="text-xs font-bold text-brand-600 uppercase tracking-wider">Tenant: {inquiry.tenantName || `ID ${inquiry.tenantId}`}</span>
                           <span className={`text-[10px] font-bold mt-1 px-2 py-0.5 rounded-full w-fit ${
                             inquiry.status === 'Approved' ? 'bg-green-100 text-green-700' :
                             inquiry.status === 'Declined' ? 'bg-red-100 text-red-700' :
@@ -305,7 +305,7 @@ export const AgentDashboard: React.FC<AgentDashboardProps> = ({ profile }) => {
                         )}
                         <button 
                           onClick={() => setChattingWith({ inquiryId: inquiry.id, tenantId: inquiry.tenantId })}
-                          className="flex-1 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold flex items-center justify-center hover:bg-indigo-700"
+                          className="flex-1 py-2 bg-brand-600 text-white rounded-lg text-xs font-bold flex items-center justify-center hover:bg-brand-700"
                         >
                           <MessageSquare className="w-3 h-3 mr-1" /> Chat
                         </button>

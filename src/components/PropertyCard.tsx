@@ -12,11 +12,11 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, onInquire, 
   const statusColors = {
     'Available': 'bg-green-100 text-green-800',
     'Pending': 'bg-yellow-100 text-yellow-800',
-    'Rented': 'bg-red-100 text-red-800'
+    'Rented': 'bg-orange-100 text-red-800'
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+    <div className="bg-[#006973] rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
       <div className="relative h-48">
         <img 
           src={listing.imageUrl || `https://picsum.photos/seed/${listing.id}/400/300`} 
@@ -31,8 +31,8 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, onInquire, 
       
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-lg font-bold text-gray-900 truncate flex-1">{listing.title}</h3>
-          <span className="text-indigo-600 font-bold ml-2">${listing.price.toLocaleString()}/mo</span>
+          <h3 className="text-lg font-bold text-white-900 truncate flex-1">{listing.title}</h3>
+          <span className="text-brand-600 font-bold ml-2">${listing.price.toLocaleString()}/mo</span>
         </div>
         
         <div className="flex items-center text-gray-500 text-sm mb-4">
@@ -54,7 +54,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, onInquire, 
         {showInquire && listing.status === 'Available' && (
           <button
             onClick={() => onInquire(listing)}
-            className="w-full flex items-center justify-center py-2 px-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors text-sm font-medium"
+            className="w-full flex items-center justify-center py-2 px-4 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-colors text-sm font-medium"
           >
             <MessageSquare className="w-4 h-4 mr-2" />
             Inquire Now

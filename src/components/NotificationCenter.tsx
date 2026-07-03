@@ -38,14 +38,14 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({ notifica
                 notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`p-4 hover:bg-gray-50 transition-colors ${!notification.is_read ? 'bg-indigo-50/30' : ''}`}
+                    className={`p-4 hover:bg-gray-50 transition-colors ${!notification.is_read ? 'bg-brand-50/30' : ''}`}
                   >
                     <div className="flex justify-between items-start">
                       <p className="text-sm text-gray-800">{notification.message}</p>
                       {!notification.is_read && (
                         <button
                           onClick={() => onMarkAsRead(notification.id)}
-                          className="p-1 text-indigo-600 hover:bg-indigo-100 rounded"
+                          className="p-1 text-brand-600 hover:bg-brand-100 rounded"
                           title="Mark as read"
                         >
                           <Check className="w-4 h-4" />

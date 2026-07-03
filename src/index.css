@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+/* Brand color, matching the teal used on the Login screen (#004d54) */
+@theme {
+  --color-brand-50: #e6eeef;
+  --color-brand-100: #cce0e2;
+  --color-brand-200: #99c2c6;
+  --color-brand-300: #66a3a9;
+  --color-brand-400: #33858d;
+  --color-brand-500: #006670;
+  --color-brand-600: #004d54;
+  --color-brand-700: #00363b;
+  --color-brand-800: #002327;
+  --color-brand-900: #001114;
+}

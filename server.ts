@@ -249,7 +249,7 @@ async function startServer() {
     db.prepare('UPDATE users SET role = ? WHERE id = ?').run(req.body.role, req.params.id);
     res.json({ success: true });
   });
-
+// Vite middleware for development
   // Vite middleware for development
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
@@ -268,3 +268,4 @@ async function startServer() {
 }
 
 startServer();
+// to run the program

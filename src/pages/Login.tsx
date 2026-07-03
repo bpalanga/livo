@@ -45,7 +45,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <div className="flex justify-center">
-          <div className="bg-indigo-600 p-3 rounded-2xl shadow-lg">
+          <div className="bg-brand-600 p-3 rounded-2xl shadow-lg">
             <Home className="w-12 h-12 text-white" />
           </div>
         </div>
@@ -56,7 +56,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
           {isRegister ? 'Already have an account?' : "Don't have an account?"}
           <button 
             onClick={() => setIsRegister(!isRegister)}
-            className="ml-1 font-medium text-indigo-600 hover:text-indigo-500"
+            className="ml-1 font-medium text-slate-600 hover:text-slate-500"
           >
             {isRegister ? 'Sign in' : 'Create one now'}
           </button>
@@ -79,7 +79,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     <input
                       required
                       type="text"
-                      className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                       value={displayName}
                       onChange={(e) => setDisplayName(e.target.value)}
                     />
@@ -88,7 +88,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">I am a...</label>
                   <select
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-xl"
+                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm rounded-xl"
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                   >
@@ -106,7 +106,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 <input
                   required
                   type="email"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -120,7 +120,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 <input
                   required
                   type="password"
-                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -136,7 +136,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-all"
+              className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-600 disabled:opacity-50 transition-all"
             >
               {loading ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>

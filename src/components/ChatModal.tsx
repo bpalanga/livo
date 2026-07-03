@@ -70,7 +70,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ inquiryId, receiverId, onC
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-2xl w-full max-w-md h-[600px] flex flex-col shadow-2xl"
       >
-        <div className="p-4 border-bottom flex justify-between items-center bg-indigo-600 text-white rounded-t-2xl">
+        <div className="p-4 border-bottom flex justify-between items-center bg-brand-600 text-white rounded-t-2xl">
           <h3 className="font-bold">Chat</h3>
           <button onClick={onClose} className="p-1 hover:bg-white/20 rounded-full">
             <X className="w-6 h-6" />
@@ -86,7 +86,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ inquiryId, receiverId, onC
               <div 
                 className={`max-w-[80%] p-3 rounded-2xl ${
                   msg.senderId === currentUser.id 
-                    ? 'bg-indigo-600 text-white rounded-tr-none' 
+                    ? 'bg-brand-600 text-white rounded-tr-none' 
                     : 'bg-gray-100 text-gray-800 rounded-tl-none'
                 }`}
               >
@@ -106,11 +106,11 @@ export const ChatModal: React.FC<ChatModalProps> = ({ inquiryId, receiverId, onC
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message..."
-            className="flex-1 p-2 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500"
+            className="flex-1 p-2 border rounded-xl outline-none focus:ring-2 focus:ring-brand-500"
           />
           <button 
             type="submit"
-            className="p-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors"
+            className="p-2 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-colors"
           >
             <Send className="w-5 h-5" />
           </button>

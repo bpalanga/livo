@@ -70,14 +70,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
         <div className="flex bg-white rounded-xl p-1 shadow-sm border border-gray-100">
           <button
             onClick={() => setActiveTab('users')}
-            className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'users' ? 'bg-indigo-600 text-white' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'users' ? 'bg-brand-600 text-white' : 'text-gray-500 hover:text-gray-700'}`}
           >
             <Users className="w-4 h-4 mr-2" />
             Users
           </button>
           <button
             onClick={() => setActiveTab('listings')}
-            className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'listings' ? 'bg-indigo-600 text-white' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'listings' ? 'bg-brand-600 text-white' : 'text-gray-500 hover:text-gray-700'}`}
           >
             <Home className="w-4 h-4 mr-2" />
             Listings
@@ -101,7 +101,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
                 <tr key={u.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                      <div className="h-8 w-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold">
                         {u.displayName[0]}
                       </div>
                       <div className="ml-4">
@@ -122,7 +122,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
                     <select
                       value={u.role}
                       onChange={(e) => handleUpdateRole(u.id, e.target.value as UserRole)}
-                      className="text-xs border border-gray-200 rounded p-1 outline-none focus:ring-1 focus:ring-indigo-500"
+                      className="text-xs border border-gray-200 rounded p-1 outline-none focus:ring-1 focus:ring-brand-500"
                       disabled={u.id === profile.id}
                     >
                       <option value="tenant">Tenant</option>

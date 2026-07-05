@@ -12,4 +12,8 @@
   --color-brand-700: #00363b;
   --color-brand-800: #002327;
   --color-brand-900: #001114;
+
+  /* Page canvas background: a soft cream tinted with the brand teal,
+     used behind cards instead of plain white/gray. */
+  --color-cream: #EEF3EC;
 }

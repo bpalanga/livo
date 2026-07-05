@@ -88,20 +88,20 @@ export const TenantDashboard: React.FC<TenantDashboardProps> = ({ profile }) => 
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-brand-600 p-4 rounded-2xl border border-gray-100 shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
             type="text"
             placeholder="Search by title or location..."
-            className="w-full pl-10 pr-4 py-2 border border-brand-600 rounded-xl focus:ring-2 focus:ring-brand-600 focus:border-transparent outline-none"
+            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 focus:bg-white outline-none transition-colors text-sm"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex flex-col">
-            <label className="text-[10px] font-bold text-gray-400 uppercase">Max Price: ${maxPrice}</label>
+          <div className="flex flex-col min-w-[140px]">
+            <label className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Max Price: <span className="text-brand-700">${maxPrice.toLocaleString()}</span></label>
             <input 
               type="range" 
               min="0" 
@@ -109,7 +109,7 @@ export const TenantDashboard: React.FC<TenantDashboardProps> = ({ profile }) => 
               step="100"
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-32 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-600"
+              className="w-32 h-1.5 mt-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-600"
             />
           </div>
         </div>

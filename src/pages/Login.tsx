@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Home, Mail, Lock, User as UserIcon, ArrowRight } from 'lucide-react';
+import { Home, Mail, Lock, User as UserIcon, ArrowRight, ArrowLeft } from 'lucide-react';
 import { motion } from 'motion/react';
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 
 interface LoginProps {
   onLogin: (token: string, user: any) => void;
+  onBack?: () => void;
 }
 
-export const Login: React.FC<LoginProps> = ({ onLogin }) => {
+export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,6 +16,26 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [role, setRole] = useState('tenant');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+    if (!credentialResponse.credential) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential: credentialResponse.credential })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Google sign-in failed');
+      onLogin(data.token, data.user);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +64,15 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen bg-cream flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="absolute top-6 left-6 flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-700 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" /> Back
+        </button>
+      )}
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <div className="flex justify-center">
           <div className="bg-brand-600 p-3 rounded-2xl shadow-lg">
@@ -50,7 +80,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
           </div>
         </div>
         <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-          {isRegister ? 'Create your account' : 'Sign in to RentMaster'}
+          {isRegister ? 'Create your account' : 'Sign in to Livo'}
         </h2>
         <p className="mt-2 text-sm text-gray-600">
           {isRegister ? 'Already have an account?' : "Don't have an account?"}
@@ -148,6 +178,31 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
               )}
             </button>
           </form>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200" />
+            </div>
+            <div className="relative flex justify-center text-xs">
+              <span className="bg-white px-3 text-gray-400 uppercase tracking-wide">Or continue with</span>
+            </div>
+          </div>
+
+          <div className="flex justify-center">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => setError('Google sign-in failed. Please try again.')}
+              useOneTap={false}
+              theme="outline"
+              shape="pill"
+              width="280"
+            />
+          </div>
+          {isRegister && (
+            <p className="mt-3 text-center text-xs text-gray-400">
+              Signing up with Google creates a Tenant account by default — an admin can change your role later.
+            </p>
+          )}
         </motion.div>
       </div>
     </div>

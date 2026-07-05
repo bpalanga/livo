@@ -70,14 +70,20 @@ export const ChatModal: React.FC<ChatModalProps> = ({ inquiryId, receiverId, onC
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-2xl w-full max-w-md h-[600px] flex flex-col shadow-2xl"
       >
-        <div className="p-4 border-bottom flex justify-between items-center bg-brand-600 text-white rounded-t-2xl">
+        <div className="p-4 flex justify-between items-center bg-brand-600 text-white rounded-t-2xl">
           <h3 className="font-bold">Chat</h3>
-          <button onClick={onClose} className="p-1 hover:bg-white/20 rounded-full">
+          <button onClick={onClose} className="p-1 hover:bg-white/20 rounded-full transition-colors">
             <X className="w-6 h-6" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {messages.length === 0 && (
+            <div className="h-full flex flex-col items-center justify-center text-center text-gray-400 py-12">
+              <p className="text-sm">No messages yet.</p>
+              <p className="text-xs mt-1">Say hello to get the conversation started.</p>
+            </div>
+          )}
           {messages.map((msg) => (
             <div 
               key={msg.id} 
@@ -100,17 +106,18 @@ export const ChatModal: React.FC<ChatModalProps> = ({ inquiryId, receiverId, onC
           <div ref={messagesEndRef} />
         </div>
 
-        <form onSubmit={handleSendMessage} className="p-4 border-t flex gap-2">
+        <form onSubmit={handleSendMessage} className="p-4 border-t border-gray-100 flex gap-2">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message..."
-            className="flex-1 p-2 border rounded-xl outline-none focus:ring-2 focus:ring-brand-500"
+            className="flex-1 p-2.5 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm"
           />
           <button 
             type="submit"
-            className="p-2 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-colors"
+            disabled={!newMessage.trim()}
+            className="p-2.5 bg-brand-600 text-white rounded-xl hover:bg-brand-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             <Send className="w-5 h-5" />
           </button>

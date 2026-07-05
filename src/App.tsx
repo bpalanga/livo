@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './hooks/useAuth';
 import { Login } from './pages/Login';
+import { LandingPage } from './components/LandingPage';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { AgentDashboard } from './pages/AgentDashboard';
 import { TenantDashboard } from './pages/TenantDashboard';
@@ -12,6 +13,7 @@ export default function App() {
   const { profile, loading, login, logout } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [view, setView] = useState<'landing' | 'login'>('landing');
 
   const fetchNotifications = async () => {
     const token = localStorage.getItem('token');
@@ -52,14 +54,17 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600"></div>
       </div>
     );
   }
 
   if (!profile) {
-    return <Login onLogin={login} />;
+    if (view === 'landing') {
+      return <LandingPage onGetStarted={() => setView('login')} />;
+    }
+    return <Login onLogin={login} onBack={() => setView('landing')} />;
   }
 
   const unreadCount = notifications.filter(n => !n.is_read).length;
@@ -78,7 +83,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-cream pt-16">
       <Navbar 
         profile={profile} 
         onShowNotifications={() => setIsNotificationsOpen(true)} 

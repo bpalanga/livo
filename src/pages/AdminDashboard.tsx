@@ -65,8 +65,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Admin Control Center</h1>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Admin Control Center</h1>
+          <p className="text-sm text-gray-500 mt-1">Manage user roles and moderate listings across the platform.</p>
+        </div>
         <div className="flex bg-white rounded-xl p-1 shadow-sm border border-gray-100">
           <button
             onClick={() => setActiveTab('users')}
@@ -98,11 +101,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {users.map((u) => (
-                <tr key={u.id}>
+                <tr key={u.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="h-8 w-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold">
-                        {u.displayName[0]}
+                      <div className="h-8 w-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-semibold text-sm">
+                        {u.displayName[0]?.toUpperCase()}
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">{u.displayName}</div>
@@ -111,7 +114,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{u.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                    <span className={`px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       u.role === 'admin' ? 'bg-purple-100 text-purple-800' : 
                       u.role === 'agent' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
                     }`}>
@@ -122,7 +125,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
                     <select
                       value={u.role}
                       onChange={(e) => handleUpdateRole(u.id, e.target.value as UserRole)}
-                      className="text-xs border border-gray-200 rounded p-1 outline-none focus:ring-1 focus:ring-brand-500"
+                      className="text-xs border border-gray-200 rounded-lg p-1.5 outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-40 disabled:cursor-not-allowed"
                       disabled={u.id === profile.id}
                     >
                       <option value="tenant">Tenant</option>
@@ -132,6 +135,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
                   </td>
                 </tr>
               ))}
+              {users.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="px-6 py-12 text-center text-gray-500">No users registered yet.</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -148,21 +156,24 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {listings.map((l) => (
-                <tr key={l.id}>
+                <tr key={l.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{l.title}</div>
                     <div className="text-xs text-gray-500">{l.location}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{l.agentId}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                    <span className={`px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      l.status === 'Available' ? 'bg-green-100 text-green-800' :
+                      l.status === 'Pending' ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'
+                    }`}>
                       {l.status}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button
                       onClick={() => handleDeleteListing(l.id)}
-                      className="text-red-600 hover:text-red-900 flex items-center"
+                      className="text-red-600 hover:text-red-800 flex items-center transition-colors"
                     >
                       <Trash2 className="w-4 h-4 mr-1" />
                       Remove

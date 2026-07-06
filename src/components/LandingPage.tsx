@@ -75,7 +75,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             Find your next home, <span className="text-brand-600">without the hassle.</span>
           </h1>
           <p className="mt-5 text-lg text-gray-600 max-w-md">
-            Browse verified listings, message agents directly, and manage the entire rental process — all in one place.
+            Browse verified listings, message agents directly, and manage the entire rental process all in one place.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <button

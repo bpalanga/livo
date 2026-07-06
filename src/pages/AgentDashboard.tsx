@@ -265,7 +265,7 @@ export const AgentDashboard: React.FC<AgentDashboardProps> = ({ profile }) => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Price ($/mo)</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Price (ksh/mo)</label>
                     <input required type="number" className="w-full p-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500" value={editingListing?.price || 0} onChange={e => setEditingListing({...editingListing!, price: Number(e.target.value)})} />
                   </div>
                   <div>

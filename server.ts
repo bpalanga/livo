@@ -10,9 +10,22 @@ import path from 'path';
 import fs from 'fs';
 import multer from 'multer';
 import { OAuth2Client } from 'google-auth-library';
+import compression from 'compression';
+import rateLimit from 'express-rate-limit';
 
 const db = new Database('rentmaster.db');
-const JWT_SECRET = 'rentmaster-secret-key-123';
+// The JWT secret should never live in source code — it should come from
+// the environment, so it's not sitting in git history. If JWT_SECRET isn't
+// set (e.g. someone clones this repo without setting up .env.local), we
+// fall back to a dev-only value and warn loudly, rather than silently
+// running insecurely.
+const JWT_SECRET = process.env.JWT_SECRET || (() => {
+  console.warn(
+    '\n⚠️  WARNING: JWT_SECRET is not set in .env.local — using an insecure ' +
+    'development fallback. Set JWT_SECRET in .env.local before deploying.\n'
+  );
+  return 'dev-only-insecure-fallback-secret';
+})();
 
 // --- Google Sign-In Setup ---
 // Set GOOGLE_CLIENT_ID in .env.local (see .env.example) — this must match
@@ -109,10 +122,52 @@ db.exec(`
   );
 `);
 
+// --- Scaling & Performance Setup ---
+// WAL (Write-Ahead Logging) mode lets readers keep querying while a write
+// is in progress, instead of the whole database locking on every write.
+// This is the single biggest concurrency improvement SQLite offers, and
+// costs nothing to enable.
+db.pragma('journal_mode = WAL');
+
+// Indexes on every foreign key we filter/join on. Without these, SQLite
+// scans the entire table for lookups like "all inquiries for this agent" —
+// fine at a few hundred rows, but it gets linearly slower as the table
+// grows. Indexes keep those lookups fast regardless of table size.
+db.exec(`
+  CREATE INDEX IF NOT EXISTS idx_listings_agentId ON listings(agentId);
+  CREATE INDEX IF NOT EXISTS idx_inquiries_tenantId ON inquiries(tenantId);
+  CREATE INDEX IF NOT EXISTS idx_inquiries_agentId ON inquiries(agentId);
+  CREATE INDEX IF NOT EXISTS idx_inquiries_propertyId ON inquiries(propertyId);
+  CREATE INDEX IF NOT EXISTS idx_messages_inquiryId ON messages(inquiryId);
+  CREATE INDEX IF NOT EXISTS idx_notifications_recipient_id ON notifications(recipient_id);
+`);
+
 async function startServer() {
   const app = express();
   app.use(cors());
+  app.use(compression()); // gzips responses — smaller payloads, faster over slow connections
   app.use(express.json());
+
+  // Caps how many requests one IP can make in a window, so a single client
+  // (buggy or malicious) can't overwhelm the server for everyone else.
+  // Auth endpoints get a stricter limit since they're the most common
+  // target for automated abuse (credential stuffing, brute force).
+  const generalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 300,                  // 300 requests per IP per window
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+  const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 20,                   // login/register/google attempts per IP per window
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Too many attempts. Please try again later.' },
+  });
+  app.use('/api/', generalLimiter);
+  app.use('/api/auth/', authLimiter);
+
   // Serve uploaded images at http://localhost:3000/uploads/<filename>
   app.use('/uploads', express.static(UPLOADS_DIR));
 
@@ -203,8 +258,16 @@ async function startServer() {
   });
 
   // --- Listing Routes ---
+  // Supports optional ?page= and ?limit= query params so this endpoint
+  // doesn't return an ever-growing, unbounded payload as listings pile up.
+  // Defaults to the first 100 if no params are given, which is generous
+  // enough that nothing changes for the app's current data — but the
+  // capability is there before it's actually needed.
   app.get('/api/listings', (req, res) => {
-    const listings = db.prepare('SELECT * FROM listings ORDER BY createdAt DESC').all();
+    const page = Math.max(1, parseInt(req.query.page as string) || 1);
+    const limit = Math.min(200, Math.max(1, parseInt(req.query.limit as string) || 100));
+    const offset = (page - 1) * limit;
+    const listings = db.prepare('SELECT * FROM listings ORDER BY createdAt DESC LIMIT ? OFFSET ?').all(limit, offset);
     res.json(listings.map((l: any) => {
       let amenities = [];
       try {
@@ -323,7 +386,10 @@ async function startServer() {
   // --- Admin Routes ---
   app.get('/api/admin/users', authenticateToken, (req: any, res) => {
     if (req.user.role !== 'admin') return res.sendStatus(403);
-    const users = db.prepare('SELECT id, email, displayName, role, createdAt FROM users').all();
+    const page = Math.max(1, parseInt(req.query.page as string) || 1);
+    const limit = Math.min(200, Math.max(1, parseInt(req.query.limit as string) || 100));
+    const offset = (page - 1) * limit;
+    const users = db.prepare('SELECT id, email, displayName, role, createdAt FROM users LIMIT ? OFFSET ?').all(limit, offset);
     res.json(users);
   });
 
@@ -358,3 +424,16 @@ async function startServer() {
 }
 
 startServer();
+
+// A single unexpected error in any request handler shouldn't take the
+// entire server down for every other connected user. These log the error
+// so it's visible and debuggable, instead of crashing the process.
+// (This is a safety net for genuinely unexpected bugs — it's not a
+// substitute for fixing the bug itself, but it keeps one bad request from
+// becoming an outage for everyone else.)
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception (server stayed up):', err);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled promise rejection (server stayed up):', reason);
+});

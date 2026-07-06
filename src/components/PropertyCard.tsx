@@ -32,7 +32,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, onInquire, 
       <div className="p-5 flex flex-col flex-1">
         <div className="flex justify-between items-start gap-2">
           <h3 className="text-base font-semibold text-gray-900 truncate">{listing.title}</h3>
-          <span className="text-brand-700 font-bold whitespace-nowrap">${listing.price.toLocaleString()}<span className="text-xs font-medium text-gray-400">/mo</span></span>
+          <span className="text-brand-700 font-bold whitespace-nowrap">ksh{listing.price.toLocaleString()}<span className="text-xs font-medium text-gray-400">/mo</span></span>
         </div>
 
         <div className="flex items-center text-gray-500 text-sm mt-1.5">

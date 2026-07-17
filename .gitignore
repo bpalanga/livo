@@ -7,7 +7,12 @@
 
 # Database files
 *.db
+*.db-shm
+*.db-wal
 *.sqlite
 
 # Dependencies
 node_modules/
+
+# Uploaded property photos (user-generated, not source code)
+uploads/

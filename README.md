@@ -88,27 +88,27 @@ SQLite tables, created automatically on first server start (`server.ts`):
 
 ## API Endpoints
 
-All endpoints are prefixed `/api`. Routes marked 🔒 require an `Authorization: Bearer <token>` header.
+All endpoints are prefixed `/api`. Routes marked  require an `Authorization: Bearer <token>` header.
 
 | Method | Route | Description |
 |---|---|---|
 | POST | `/auth/register` | Create a new account |
 | POST | `/auth/login` | Log in, returns a JWT |
-| GET 🔒 | `/auth/me` | Get the current logged-in user |
+| GET  | `/auth/me` | Get the current logged-in user |
 | GET | `/listings` | List all properties |
-| POST 🔒 | `/listings` | Create a listing (agent/admin only) |
-| PUT 🔒 | `/listings/:id` | Update a listing |
-| DELETE 🔒 | `/listings/:id` | Delete a listing |
-| POST 🔒 | `/upload` | Upload a property photo (multipart/form-data, field name `image`); returns `{ imageUrl }` |
-| POST 🔒 | `/inquiries` | Submit an inquiry on a listing |
-| GET 🔒 | `/inquiries` | List inquiries (filtered by role) |
-| PUT 🔒 | `/inquiries/:id/status` | Approve or decline an inquiry |
-| GET 🔒 | `/messages/:inquiryId` | Get chat messages for an inquiry |
-| POST 🔒 | `/messages` | Send a chat message |
-| GET 🔒 | `/notifications` | Get the current user's notifications |
-| PUT 🔒 | `/notifications/:id/read` | Mark a notification as read |
-| GET 🔒 | `/admin/users` | List all users (admin only) |
-| PUT 🔒 | `/admin/users/:id/role` | Change a user's role (admin only) |
+| POST  | `/listings` | Create a listing (agent/admin only) |
+| PUT  | `/listings/:id` | Update a listing |
+| DELETE  | `/listings/:id` | Delete a listing |
+| POST  | `/upload` | Upload a property photo (multipart/form-data, field name `image`); returns `{ imageUrl }` |
+| POST  | `/inquiries` | Submit an inquiry on a listing |
+| GET  | `/inquiries` | List inquiries (filtered by role) |
+| PUT  | `/inquiries/:id/status` | Approve or decline an inquiry |
+| GET  | `/messages/:inquiryId` | Get chat messages for an inquiry |
+| POST  | `/messages` | Send a chat message |
+| GET  | `/notifications` | Get the current user's notifications |
+| PUT | `/notifications/:id/read` | Mark a notification as read |
+| GET  | `/admin/users` | List all users (admin only) |
+| PUT  | `/admin/users/:id/role` | Change a user's role (admin only) |
 
 ---
 
@@ -134,7 +134,7 @@ The app runs at **http://localhost:3000**.
 
 | Variable | Purpose |
 |---|---|
-| `GEMINI_API_KEY` | Reserved for a Google Gemini integration; not currently wired into any feature |
+| none |none|
 | `APP_URL` | Base URL of the app (e.g. `http://localhost:3000`) |
 
 > Note: the JWT signing secret is currently hardcoded in `server.ts` rather than pulled from an environment variable — acceptable for a coursework project, but a production app should move it to `.env`.

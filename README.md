@@ -163,5 +163,5 @@ Accepted formats: JPEG, PNG, WEBP, GIF. Max file size: 5MB.
 
 - JWT secret is hardcoded rather than environment-configured
 - No automated tests
-- `GEMINI_API_KEY` is present in the environment template but not yet used by any feature
+
 - No pagination on listings or user lists (fine at coursework scale)
